@@ -723,78 +723,84 @@ kbd {
   .header-btn     { font-size: 10px; padding: 4px 8px; }
 }
 /* ================================================================
-   【iPad 橫向投影專用優化】閱讀原文浮窗 + 題目寬度調整
+   【瑞媛老師客製調整 v2026】依據你的4點需求
+   1. 題目標題同一行粗體小字、不空行
+   2. 表格優化
+   3. 閱讀原文提示改用芫荽體（Iansui）
+   4. iPad 橫向投屏寬度優化
    ================================================================ */
 
-/* 1. 閱讀原文浮窗 ── 加大寬度（原本太窄） */
-#passage-modal .modal-box {
-  max-width: 980px !important;     /* 原900px → 980px */
-  width: 94% !important;
-  margin: 24px auto !important;
+/* 1. 題目提示行：同一行、粗體、小字、金色、不換行空行 */
+.q-preview .passage-hint {
+  display: block;
+  font-size: 0.87em;           /* 小字一點 */
+  font-weight: 700;            /* 粗體 */
+  color: var(--gold);
+  margin: 6px 0 14px 0;
+  line-height: 1.45;
 }
 
-/* iPad 橫向時再加大一點 */
+/* 2. 表格優化（更清楚、美觀） */
+.q-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 18px 0;
+  font-size: 0.96em;
+}
+
+.q-body th, .q-body td {
+  border: 1px solid var(--border);
+  padding: 11px 14px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.q-body th {
+  background: var(--warm);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+body.proj-mode .q-body table {
+  font-size: 1.08em;
+}
+
+/* 3. 閱讀原文提示統一用芫荽體（硬筆楷書風格） */
+.passage-inline-btn,
+.q-preview .passage-hint {
+  font-family: "Iansui", "Noto Serif TC", serif;
+  letter-spacing: 0.6px;
+}
+
+/* 4. 題目預覽整體更緊湊 */
+.q-preview {
+  line-height: 1.78;
+}
+
+.q-preview p {
+  margin-bottom: 9px;
+}
+
+/* iPad 橫向投屏整體寬度與留白調整 */
+#passage-modal .modal-box {
+  max-width: 1120px !important;
+  width: 96% !important;
+}
+
 @media (min-width: 1024px) and (orientation: landscape) {
   #passage-modal .modal-box {
-    max-width: 1120px !important;
-    width: 96% !important;
-  }
-  
-  #passage-modal .modal-body {
-    font-size: calc(var(--base-size) * 1.05);
-    line-height: 2.1;
-    padding: 28px 36px 32px;
+    max-width: 1180px !important;
   }
 }
 
-/* 2. 逐題檢討卡片 ── 讓文字充分利用左右空間 */
-.q-card {
-  max-width: none !important;
-}
-
-/* 投屏模式下，題目預覽文字更寬 */
-body.proj-mode .q-preview {
-  max-width: none !important;
-  padding-right: 16px;
-}
-
-/* 3. 全螢幕投影模式下，題目與解析也加大寬度 */
-body.proj-mode .fs-content {
-  padding-left: 90px !important;
-  padding-right: 90px !important;
-}
-
-body.proj-mode .fs-question-text,
-body.proj-mode .fs-explain-area {
-  max-width: 100% !important;
-}
-
-/* 4. 容器整體左右留更多空間（投屏時更舒服） */
-body.proj-mode .container {
-  padding-left: 45px;
-  padding-right: 45px;
-}
-/* ================================================================
-   【額外調整】讓 iPad 橫向投屏更舒服
-   ================================================================ */
-
-/* 1. 閱讀原文浮窗再調寬（從980px改成1100px） */
-#passage-modal .modal-box {
-  max-width: 1100px !important;
-}
-
-/* iPad 橫向時可以再更寬 */
-@media (min-width: 1024px) and (orientation: landscape) {
-  #passage-modal .modal-box {
-    max-width: 1150px !important;
-    width: 96% !important;
-  }
-}
-
-/* 2. 投屏模式整體左右留白調鬆（原本可能太緊） */
 body.proj-mode .container {
   padding-left: 40px !important;
   padding-right: 40px !important;
+}
+
+body.proj-mode .fs-content {
+  padding-left: 85px !important;
+  padding-right: 85px !important;
 }
 </style>
 </head>
