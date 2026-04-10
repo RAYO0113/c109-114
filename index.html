@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
@@ -679,7 +680,7 @@ kbd {
    ██  19. 班級進度面板
    ================================================================ */
 #prog-drawer {
-  position: fixed; right: -390px; top: 0; bottom: 0; width: 390px;
+  position: fixed; right: -420px; top: 0; bottom: 0; width: 420px;
   background: var(--surface); border-left: 2px solid var(--border);
   box-shadow: -4px 0 30px rgba(0,0,0,0.15);
   z-index: 199; transition: right 0.3s ease; overflow-y: auto; padding: 22px 16px;
@@ -767,7 +768,7 @@ kbd {
   .year-btn       { padding: 5px 12px; font-size: 12px; }
   #settings-drawer{ width: 260px; }
   #jump-drawer    { width: 220px; }
-  #prog-drawer    { width: 300px; }
+  #prog-drawer    { width: 320px; }
   .modal-box      { margin: 8px 0; }
   .modal-body     { font-size: 14px; max-height: 60vh; }
   .fs-content     { padding: 24px 20px; }
@@ -860,33 +861,39 @@ body.proj-mode .fs-content {
    ================================================================ */
 #textbook-modal { display:none; position:fixed; inset:0; background:rgba(26,18,9,0.88); z-index:9700; align-items:flex-start; justify-content:center; padding:28px 20px; overflow-y:auto; }
 #textbook-modal.open { display:flex; }
-#textbook-modal .modal-box { background:var(--paper); width:100%; max-width:820px; border-radius:18px; box-shadow:0 30px 80px rgba(0,0,0,0.5); animation:modalIn 0.25s ease; margin:auto; }
+#textbook-modal .modal-box { background:var(--paper); width:100%; max-width:1200px; border-radius:18px; box-shadow:0 30px 80px rgba(0,0,0,0.5); animation:modalIn 0.25s ease; margin:auto; }
 .tb-title-bar { display:flex; align-items:center; gap:12px; padding:20px 26px 14px; border-bottom:2px dashed var(--border); }
 .tb-title { flex:1; font-family:'Noto Serif TC',serif; font-size:calc(var(--base-size)*1.1); font-weight:700; color:var(--ink); }
 .tb-close { flex-shrink:0; width:36px; height:36px; background:var(--red); color:white; border:none; border-radius:50%; font-size:17px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-.tb-body { padding:20px 26px 16px; font-family:'Zen Old Mincho','Noto Serif TC',serif; font-size:var(--base-size); line-height:2.15; color:var(--ink); max-height:65vh; overflow-y:auto; }
+/* 課文原文：較粗字重、較寬顯示 */
+.tb-body { padding:20px 26px 16px; font-family:'Noto Serif TC',serif; font-weight:700; font-size:var(--base-size); line-height:2.25; color:var(--ink); max-height:72vh; overflow-y:auto; }
 .tb-body .tb-prompt { background:rgba(200,147,26,0.10); border-left:4px solid var(--gold); padding:10px 14px; border-radius:0 8px 8px 0; margin-top:18px; font-family:'Noto Sans TC',sans-serif; font-size:calc(var(--base-size)*0.88); color:var(--ink); }
-.tb-body .tb-note { font-size:calc(var(--base-size)*0.82); color:var(--muted); margin-top:8px; font-family:'Noto Sans TC',sans-serif; }
+/* 翻譯說明用較細字重，與原文粗體形成對比 */
+.tb-body .tb-note { font-size:calc(var(--base-size)*0.86); color:var(--muted); margin-top:4px; font-family:'Noto Sans TC',sans-serif; font-weight:400; line-height:1.9; }
 .tb-close-bot { display:block; margin:4px 26px 24px; width:calc(100% - 52px); padding:11px; background:var(--red); color:white; border:none; border-radius:10px; font-size:14px; cursor:pointer; font-family:'Noto Sans TC',sans-serif; }
 .textbook-btn { display:inline-flex; align-items:center; gap:5px; padding:4px 12px; background:rgba(30,77,140,0.08); border:1.5px solid var(--blue); color:var(--blue); border-radius:6px; cursor:pointer; font-size:12px; font-weight:700; font-family:'Noto Sans TC',sans-serif; transition:all 0.15s; margin-left:6px; vertical-align:middle; }
 .textbook-btn:hover { background:var(--blue); color:white; }
 
 </style>
+
 </head>
 <body>
 
 <!-- ================================================================
      Header：標題、年份選擇器、投屏 + 深色模式按鈕
      ================================================================ -->
+
 <header>
   <div class="header-label">四技二專統一入學測驗 · 國文共同科目</div>
   <h1>105–114 年 完整題目檢討</h1>
   <p>逐題解析 · 難易分析 · 五標對照 · 閱讀原文 · 知識點熱度</p>
 
   <!-- 年份按鈕由 JS 動態產生 -->
+
   <div class="year-selector" id="year-selector"></div>
 
   <!-- 右上角：投屏 + 深色模式 -->
+
   <div class="header-btns">
     <button class="header-btn proj-btn" onclick="toggleProjMode()">📽️ 投屏</button>
     <div class="dark-switch" id="dark-switch" onclick="toggleDarkMode()" title="深色模式">🌙 深色</div>
@@ -896,6 +903,7 @@ body.proj-mode .fs-content {
 <!-- ================================================================
      Tabs：共 4 個分頁
      ================================================================ -->
+
 <div class="tabs">
   <button class="tab-btn active" onclick="showTab('scores')">五標與成績</button>
   <button class="tab-btn"        onclick="showTab('answers')">📋 答案速覽</button>
@@ -907,61 +915,68 @@ body.proj-mode .fs-content {
 <!-- ================================================================
      主內容容器
      ================================================================ -->
+
 <div class="container">
 
   <!-- ── Tab 1：五標與成績 ─────────────────────── -->
+
   <section id="tab-scores" class="active">
 
-    <!-- 統測有五標保留，模擬考無五標可刪除 score-section 整個區塊 -->
-    <div class="score-section" id="standards-section">
-      <div class="section-title">📊 本年度五標對照</div>
-      <div class="five-standards">
-        <div class="standard-card highlight">
-          <div class="standard-name">頂　標</div>
-          <div class="standard-score" id="std-top">—</div>
-        </div>
-        <div class="standard-card">
-          <div class="standard-name">前　標</div>
-          <div class="standard-score" id="std-front">—</div>
-        </div>
-        <div class="standard-card">
-          <div class="standard-name">均　標</div>
-          <div class="standard-score" id="std-avg">—</div>
-        </div>
-        <div class="standard-card">
-          <div class="standard-name">後　標</div>
-          <div class="standard-score" id="std-back">—</div>
-        </div>
-        <div class="standard-card">
-          <div class="standard-name">底　標</div>
-          <div class="standard-score" id="std-bottom">—</div>
-        </div>
-      </div>
+```
+<!-- 統測有五標保留，模擬考無五標可刪除 score-section 整個區塊 -->
+<div class="score-section" id="standards-section">
+  <div class="section-title">📊 本年度五標對照</div>
+  <div class="five-standards">
+    <div class="standard-card highlight">
+      <div class="standard-name">頂　標</div>
+      <div class="standard-score" id="std-top">—</div>
     </div>
+    <div class="standard-card">
+      <div class="standard-name">前　標</div>
+      <div class="standard-score" id="std-front">—</div>
+    </div>
+    <div class="standard-card">
+      <div class="standard-name">均　標</div>
+      <div class="standard-score" id="std-avg">—</div>
+    </div>
+    <div class="standard-card">
+      <div class="standard-name">後　標</div>
+      <div class="standard-score" id="std-back">—</div>
+    </div>
+    <div class="standard-card">
+      <div class="standard-name">底　標</div>
+      <div class="standard-score" id="std-bottom">—</div>
+    </div>
+  </div>
+</div>
 
-    <div class="card">
-      <div class="section-title">🖩 個人成績計算</div>
-      <div class="calc-area">
-        <div class="calc-field">
-          <label>選擇題答對題數（0–38 題，每題 2 分）</label>
-          <input type="number" id="correct-count" min="0" max="38" placeholder="0" oninput="calcScore()">
-        </div>
-        <div class="calc-field">
-          <label>寫作測驗分數（0–24 分）</label>
-          <input type="number" id="essay-score" min="0" max="24" placeholder="0" oninput="calcScore()">
-        </div>
-      </div>
-      <button class="calc-btn" onclick="calcScore()">計算總分與落點</button>
-      <div class="result-box" id="result-box">
-        <div class="result-score" id="result-score">—</div>
-        <div class="score-bar"><div class="score-fill" id="result-fill" style="width:0%"></div></div>
-        <div class="result-label" id="result-label"></div>
-      </div>
+<div class="card">
+  <div class="section-title">🖩 個人成績計算</div>
+  <div class="calc-area">
+    <div class="calc-field">
+      <label>選擇題答對題數（0–38 題，每題 2 分）</label>
+      <input type="number" id="correct-count" min="0" max="38" placeholder="0" oninput="calcScore()">
     </div>
+    <div class="calc-field">
+      <label>寫作測驗分數（0–24 分）</label>
+      <input type="number" id="essay-score" min="0" max="24" placeholder="0" oninput="calcScore()">
+    </div>
+  </div>
+  <button class="calc-btn" onclick="calcScore()">計算總分與落點</button>
+  <div class="result-box" id="result-box">
+    <div class="result-score" id="result-score">—</div>
+    <div class="score-bar"><div class="score-fill" id="result-fill" style="width:0%"></div></div>
+    <div class="result-label" id="result-label"></div>
+  </div>
+</div>
+```
+
   </section>
 
   <!-- ── Tab 2：逐題檢討 ──────────────────────── -->
+
   <!-- ── Tab 答案速覽 ──────────────────────── -->
+
   <section id="tab-answers">
     <div style="padding:24px 0 0;">
       <!-- 工具列 -->
@@ -996,28 +1011,33 @@ body.proj-mode .fs-content {
   </section>
 
   <!-- ── Tab 3：題組整理 ──────────────────────── -->
+
   <section id="tab-groups">
     <div id="group-list"></div>
   </section>
 
   <!-- ── Tab 4：統計分析 ──────────────────────── -->
+
   <section id="tab-stats">
 
-    <!-- 知識點熱度圖 -->
-    <div class="card">
-      <div class="section-title">📌 知識點出題熱度（全年度累計）</div>
-      <div id="tag-stats">
-        <div class="empty-hint"><div class="icon">📂</div>填入題目資料後自動顯示統計</div>
-      </div>
-    </div>
+```
+<!-- 知識點熱度圖 -->
+<div class="card">
+  <div class="section-title">📌 知識點出題熱度（全年度累計）</div>
+  <div id="tag-stats">
+    <div class="empty-hint"><div class="icon">📂</div>填入題目資料後自動顯示統計</div>
+  </div>
+</div>
 
-    <!-- 班級進度跨年統計 -->
-    <div class="card">
-      <div class="section-title">📋 班級進度跨年統計</div>
-      <div class="cross-table-wrap">
-        <div id="cross-year-table"></div>
-      </div>
-    </div>
+<!-- 班級進度跨年統計 -->
+<div class="card">
+  <div class="section-title">📋 班級進度跨年統計</div>
+  <div class="cross-table-wrap">
+    <div id="cross-year-table"></div>
+  </div>
+</div>
+```
+
   </section>
 
 </div><!-- /container -->
@@ -1025,6 +1045,7 @@ body.proj-mode .fs-content {
 <!-- ================================================================
      閱讀原文 Modal（z-index 9600，可疊在全螢幕投影上）
      ================================================================ -->
+
 <div id="passage-modal">
   <div class="modal-box">
     <div class="modal-header">
@@ -1037,6 +1058,7 @@ body.proj-mode .fs-content {
 </div>
 
 <!-- 課文重點彈窗（z-index 9700，高於全螢幕） -->
+
 <div id="textbook-modal">
   <div class="modal-box">
     <div class="tb-title-bar">
@@ -1051,6 +1073,7 @@ body.proj-mode .fs-content {
 <!-- ================================================================
      全螢幕單題投影（z-index 9500）
      ================================================================ -->
+
 <div id="fullscreen-overlay">
   <!-- 頂部工具列 -->
   <div class="fs-topbar">
@@ -1062,20 +1085,26 @@ body.proj-mode .fs-content {
   </div>
 
   <!-- 全螢幕：題目內容（可捲動）-->
+
 <div class="fs-content">
   <div class="fs-question-text" id="fs-question-text"></div>
 
   <!-- 新增：解析區塊 -->
+
   <div class="fs-explain-area" id="fs-explain-area" style="display:none; margin-top:40px; padding-top:30px; border-top:2px dashed var(--border);">
     <div class="explain-title" style="font-size:1.15em; margin-bottom:16px;">📝 詳細解析</div>
     <div class="explain-text" id="fs-explain-text" style="font-size:1.05em; line-height:2.05;"></div>
-    
-    <div class="key-point" id="fs-keypoint-full" style="margin-top:24px; font-size:1.05em;"></div>
-    
-    <div class="key-error" id="fs-wrong-full" style="display:none; margin-top:18px; font-size:1.02em;"></div>
+
+```
+<div class="key-point" id="fs-keypoint-full" style="margin-top:24px; font-size:1.05em;"></div>
+
+<div class="key-error" id="fs-wrong-full" style="display:none; margin-top:18px; font-size:1.02em;"></div>
+```
+
   </div>
 
   <!-- 答案揭曉區（保留原功能） -->
+
   <div class="fs-answer-area">
     <button class="fs-reveal-btn" id="fs-reveal-btn" onclick="fsReveal()">
       👁️ 揭曉答案與解析（Space）
@@ -1088,6 +1117,7 @@ body.proj-mode .fs-content {
 </div>
 
   <!-- 底部導覽列 -->
+
   <div class="fs-nav">
     <button class="fs-nav-btn" id="fs-prev" onclick="fsPrev()" title="上一題（←）">← 上一題</button>
     <div class="fs-counter" id="fs-counter">— / —</div>
@@ -1098,6 +1128,7 @@ body.proj-mode .fs-content {
 <!-- ================================================================
      右側浮動按鈕（由下往上：進度 / 跳題 / 全螢幕 / 設定）
      ================================================================ -->
+
 <button id="settings-toggle" class="side-btn" onclick="togglePanel('settings')">設定調整</button>
 <button id="fs-toggle"       class="side-btn" onclick="openFullscreen(0)">全螢幕投影</button>
 <button id="jump-toggle"     class="side-btn" onclick="togglePanel('jump')">快速跳題</button>
@@ -1107,6 +1138,7 @@ body.proj-mode .fs-content {
 <!-- ================================================================
      設定面板（深色模式 + 字級滑桿 + 快捷鍵說明）
      ================================================================ -->
+
 <div id="settings-drawer">
   <div class="drawer-header">
     <span>⚙️ 設定</span>
@@ -1115,6 +1147,7 @@ body.proj-mode .fs-content {
   <div class="drawer-sub">偏好設定自動儲存至瀏覽器</div>
 
   <!-- 深色模式 Toggle -->
+
   <div class="toggle-row">
     <div class="toggle-info">
       <div class="toggle-label">🌙 深色模式</div>
@@ -1124,6 +1157,7 @@ body.proj-mode .fs-content {
   </div>
 
   <!-- 字級滑桿 -->
+
   <div class="setting-row">
     <div class="slider-header">
       <div class="setting-label">🔠 全站字級</div>
@@ -1136,6 +1170,7 @@ body.proj-mode .fs-content {
   </div>
 
   <!-- 快捷鍵說明 -->
+
   <div class="shortcuts-section">
     <div class="setting-label" style="margin-bottom:10px">⌨️ 鍵盤快捷鍵</div>
     <div class="shortcut-row"><kbd>P</kbd> 投屏模式開關</div>
@@ -1151,7 +1186,9 @@ body.proj-mode .fs-content {
 <!-- ================================================================
      快速跳題面板
      ================================================================ -->
+
 <!-- 課文連結面板 -->
+
 <div id="tb-drawer">
   <div class="drawer-header">
     <span>📚 課文連結</span>
@@ -1209,6 +1246,7 @@ body.proj-mode .fs-content {
 <!-- ================================================================
      班級進度面板
      ================================================================ -->
+
 <div id="prog-drawer">
   <div class="drawer-header">
     <span>📋 班級題目進度</span>
@@ -1217,6 +1255,34 @@ body.proj-mode .fs-content {
   <div class="drawer-sub">點擊：已講解 ↔ 未講解 · 長按 0.6s：部分講解 · 自動儲存</div>
 
   <div class="class-tabs"  id="class-tabs"></div>
+
+  <!-- ── 考試紀錄區塊（新增）── -->
+
+  <div id="exam-record-box" style="background:var(--warm);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:12px;">
+    <div style="font-family:'Noto Serif TC',serif;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;">📝 考試紀錄</div>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
+        <input type="checkbox" id="exam-done-check" onchange="updateExamRecord()" style="width:16px;height:16px;accent-color:var(--green);cursor:pointer;">
+        <span>已考試</span>
+      </label>
+      <div style="display:flex;align-items:center;gap:6px;font-size:13px;">
+        <span style="color:var(--muted)">已考</span>
+        <select id="exam-period-select" onchange="updateExamRecord()" style="padding:3px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--surface);color:var(--ink);font-size:13px;font-family:'Noto Sans TC',sans-serif;cursor:pointer;">
+          <option value="0">0 節</option>
+          <option value="1">1 節</option>
+          <option value="2">2 節（一場）</option>
+          <option value="3">3 節</option>
+          <option value="4">4 節（二場）</option>
+          <option value="5">5 節</option>
+          <option value="6">6 節（三場）</option>
+        </select>
+        <span style="color:var(--muted)">課</span>
+      </div>
+    </div>
+    <div id="exam-status-hint" style="font-size:11px;color:var(--muted);margin-top:6px;"></div>
+  </div>
+  <!-- ── / 考試紀錄區塊 ── -->
+
   <div class="prog-stats">
     <div class="stat-card">
       <div class="stat-num" id="stat-done"    style="color:var(--green)">0</div>
@@ -1241,13 +1307,21 @@ body.proj-mode .fs-content {
     <button class="prog-action-btn"        onclick="markAllDone()">✅ 全部完成</button>
     <button class="prog-action-btn danger" onclick="resetProgress()">🔄 重置進度</button>
   </div>
+  <!-- 備份區塊 -->
+  <div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--border);">
+    <div style="font-size:11px;color:var(--muted);margin-bottom:7px;">📁 資料備份（防止更新代碼後遺失）</div>
+    <div style="display:flex;gap:7px;">
+      <button class="prog-action-btn" onclick="exportAllData()" style="flex:1;background:rgba(39,97,74,0.08);border-color:var(--green);color:var(--green);">⬇ 匯出備份</button>
+      <button class="prog-action-btn" onclick="importAllData()" style="flex:1;background:rgba(30,77,140,0.08);border-color:var(--blue);color:var(--blue);">⬆ 匯入備份</button>
+    </div>
+  </div>
 </div>
-
 
 <!-- ================================================================
      ██████  資 料 區
      只需修改此 <script> 內的資料，核心 JS 不需動到
      ================================================================ -->
+
 <script>
 
 /* ================================================================
@@ -5386,6 +5460,9 @@ function loadAll() {
   } catch(e) {}
   Object.keys(allExamData).forEach(yr => { if (!bookmarkData[yr]) bookmarkData[yr] = {}; });
 
+  /* 考試紀錄 */
+  loadExamData();
+
   /* 設定 */
   try {
     const s = JSON.parse(localStorage.getItem('examSettings_v1') || '{}');
@@ -5440,7 +5517,7 @@ function switchYear(yr) {
   renderQuestions('all');
   renderGroups();
   renderStats();
-  renderProgressGrid();
+  renderProgressGrid(); /* 內含 renderExamRecord */
   renderJumpGrid();
   /* 重置篩選按鈕 */
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -6083,6 +6160,9 @@ function renderProgressGrid() {
   document.getElementById('stat-partial').textContent = partialCount;
   const pct = Math.round((doneCount + partialCount * 0.5) / 38 * 100);
   document.getElementById('stat-pct').textContent = pct + '%';
+
+  /* 同步考試紀錄 */
+  renderExamRecord();
 }
 
 function markAllDone() {
@@ -6096,6 +6176,119 @@ function resetProgress() {
   if (!confirm(`確定清除【${currentClass}】${currentYear} 年所有進度？此操作無法復原。`)) return;
   progressData[currentYear][currentClass] = {};
   saveProgress(); renderProgressGrid();
+}
+
+/* ================================================================
+   【二十A】考試紀錄系統
+   ─────────────────────────────────────────────────────────────
+   examData[年份][班級] = { done: true/false, periods: 0~6 }
+   key: examRecord_v1
+   ================================================================ */
+let examData = {};
+
+function loadExamData() {
+  try {
+    const raw = localStorage.getItem('examRecord_v1');
+    if (raw) examData = JSON.parse(raw);
+  } catch(e) { examData = {}; }
+}
+
+function saveExamData() {
+  try { localStorage.setItem('examRecord_v1', JSON.stringify(examData)); } catch(e) {}
+}
+
+/** 渲染考試紀錄 UI（切換班級或年份時呼叫）*/
+function renderExamRecord() {
+  if (!examData[currentYear]) examData[currentYear] = {};
+  const rec = examData[currentYear][currentClass] || { done: false, periods: 0 };
+
+  const checkEl  = document.getElementById('exam-done-check');
+  const selectEl = document.getElementById('exam-period-select');
+  const hintEl   = document.getElementById('exam-status-hint');
+  if (!checkEl || !selectEl || !hintEl) return;
+
+  checkEl.checked   = !!rec.done;
+  selectEl.value    = rec.periods || 0;
+  selectEl.disabled = !rec.done;
+
+  if (rec.done) {
+    const p = rec.periods || 0;
+    const scenes = Math.floor(p / 2);
+    hintEl.textContent = p > 0
+      ? `已考 ${p} 節課（約 ${scenes} 場完整考試）`
+      : '已標記考試，尚未記錄節數';
+    hintEl.style.color = 'var(--green)';
+  } else {
+    hintEl.textContent = '尚未考試';
+    hintEl.style.color = 'var(--muted)';
+  }
+}
+
+/** checkbox / select 變更時呼叫 */
+function updateExamRecord() {
+  if (!examData[currentYear]) examData[currentYear] = {};
+  const checkEl  = document.getElementById('exam-done-check');
+  const selectEl = document.getElementById('exam-period-select');
+  if (!checkEl || !selectEl) return;
+
+  const done    = checkEl.checked;
+  const periods = parseInt(selectEl.value) || 0;
+  examData[currentYear][currentClass] = { done, periods };
+
+  selectEl.disabled = !done;
+  saveExamData();
+  renderExamRecord();
+}
+
+/* ================================================================
+   【二十B】進度資料匯出 / 匯入（防止代碼更新後遺失資料）
+   老師可將 JSON 下載存檔，換新版本時貼入還原
+   ================================================================ */
+
+/** 匯出所有進度+書籤+考試紀錄為 JSON 檔案 */
+function exportAllData() {
+  const payload = {
+    _version: 'v2026-exam-progress',
+    _exported: new Date().toLocaleString('zh-TW'),
+    progress: progressData,
+    bookmarks: bookmarkData,
+    examRecord: examData
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `蘇瑞統測進度備份_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/** 從 JSON 檔案匯入進度資料 */
+function importAllData() {
+  const input = document.createElement('input');
+  input.type  = 'file';
+  input.accept = '.json';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (data.progress)   { Object.assign(progressData,  data.progress);   saveProgress(); }
+        if (data.bookmarks)  { Object.assign(bookmarkData,  data.bookmarks);  saveBookmarks(); }
+        if (data.examRecord) { Object.assign(examData, data.examRecord);      saveExamData(); }
+        alert('✅ 進度資料匯入成功！匯出日期：' + (data._exported || '未知'));
+        renderProgressGrid();
+        renderExamRecord();
+        renderCrossYearStats();
+      } catch(err) {
+        alert('❌ 檔案格式錯誤，請確認是正確的備份 JSON 檔案。');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
 }
 
 /* ================================================================
@@ -6160,9 +6353,10 @@ window.onload = () => {
   renderStats();       /* 統計分析 */
   renderJumpGrid();    /* 快速跳題格子 */
   renderClassTabs();   /* 班級切換 */
-  renderProgressGrid();/* 進度格子 */
+  renderProgressGrid();/* 進度格子（內含 renderExamRecord）*/
 };
 
 </script>
+
 </body>
 </html>
